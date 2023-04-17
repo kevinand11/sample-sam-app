@@ -13,6 +13,9 @@
     "test": "npm run compile && npm run unit"
   },
   "dependencies": {
+    "@middy/core": "^4.3.0",
+    "@middy/http-error-handler": "^4.3.0",
+    "@middy/http-json-body-parser": "^4.3.0",
     "esbuild": "^0.14.14"
   },
   "devDependencies": {

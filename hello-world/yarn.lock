@@ -620,6 +620,30 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@middy/core@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@middy/core/-/core-4.3.0.tgz#49023aee4ab495f1a00a0eb9209bad7cba2bbbc5"
+  integrity sha512-jB5mKFPzbew4Kol3xjjyJP9Vv59fsHA+h5hBsFyXxCIxxL0agzeCNcXvvv043ox4187C7T2ssa7mhTgIl9ojpA==
+
+"@middy/http-error-handler@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@middy/http-error-handler/-/http-error-handler-4.3.0.tgz#e58992624e7cc3d99525ab7315af7549f53c3f06"
+  integrity sha512-8X3Yb2pqGyoS3b/GhR8LaEtBRSn29/nDYURmJ8uso5VG46VOTGPew8aa3nZNMuCsocS11nz5toPEtcbsMSLTUQ==
+  dependencies:
+    "@middy/util" "4.3.0"
+
+"@middy/http-json-body-parser@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@middy/http-json-body-parser/-/http-json-body-parser-4.3.0.tgz#6d57f3126186d9e502473b631eec0449c313468b"
+  integrity sha512-rYwSKqK8TEmlyuPBflGAoGnTV8uz/qk6AeB5wl4xbWhGmAI+wttrq3qGBCfc1mhbh3QNIWHzYiojJt3aXGrEHA==
+  dependencies:
+    "@middy/util" "4.3.0"
+
+"@middy/util@4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@middy/util/-/util-4.3.0.tgz#87488825650d40c23f2f3b448aab0a26a0fd9c28"
+  integrity sha512-EAVkFH7L8FpSdmi/nbdz7dEXdU0GQ0BWDz+HcSaTmVddykpn2x70HLsxw34ggbBqF3Zb2awDuSOuLWX7ljXJnA==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
