@@ -1,33 +1,32 @@
-import middy from '@middy/core'
-import jsonBodyParser from '@middy/http-json-body-parser'
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
+import middy, { MiddlewareObj } from "@middy/core"
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
+import { Logger } from './src/logger'
+import { mockOrdersCreation } from './src/orders'
 
-export const lambdaHandler = async (_: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    try {
-        return {
-            statusCode: 200,
-            body: JSON.stringify({
-                message: 'hello world',
-            }),
-        }
-    } catch (err) {
-        console.log(err)
-        return {
-            statusCode: 500,
-            body: JSON.stringify({
-                message: 'some error happened',
-            }),
-        }
-    }
+type Event = APIGatewayProxyEvent & { logger: Logger }
+
+const middleware: MiddlewareObj<Event, APIGatewayProxyResult> = {
+  before: async (request) => {
+    if (!request.event.logger) request.event.logger = Logger.get()
+  },
 }
 
-export const parseHeader = middy()
-    .use(jsonBodyParser()) // parses the request body when it's a JSON and converts it to an object
-    .handler(async (event) => {
-        const header = event.headers['x-client-id']
-        const headerPresent = header !== undefined
-        return {
-            statusCode: 200,
-            body: JSON.stringify(headerPresent),
-        }
-    })
+export const checkHeader = middy(async (event: Event) => {
+  const requestId = event?.requestContext?.requestId ?? Math.random().toString()
+
+  return await event.logger.wrap(requestId, async () => {
+    const header = event.headers['X-Client-Id']
+    const headerPresent = header !== undefined
+
+    await mockOrdersCreation()
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        headerPresent,
+        ...event
+      }),
+    }
+  })
+})
+  .use(middleware)
