@@ -1,7 +1,7 @@
 import middy, { MiddlewareObj } from "@middy/core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { Logger } from './src/logger'
-import { mockOrdersCreation } from './src/orders'
+import { Logger } from './logger'
+import { mockOrdersCreation } from './orders'
 
 type Event = APIGatewayProxyEvent & { logger: Logger }
 
