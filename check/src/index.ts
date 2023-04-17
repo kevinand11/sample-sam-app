@@ -14,7 +14,7 @@ const middleware: MiddlewareObj<Event, APIGatewayProxyResult> = {
 export const checkHeader = middy(async (event: Event) => {
   const requestId = event?.requestContext?.requestId ?? Math.random().toString()
 
-  return await event.logger.wrap(requestId, async () => {
+  return await event.logger.with({ requestId }, async () => {
     const header = event.headers['X-Client-Id']
     const headerPresent = header !== undefined
 
