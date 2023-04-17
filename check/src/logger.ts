@@ -1,23 +1,16 @@
 import { AsyncLocalStorage } from 'async_hooks'
 
-export class Logger {
-	private static instance: Logger
-	#storage = new AsyncLocalStorage<string>()
-	private constructor () { }
+const storage = new AsyncLocalStorage<string>()
 
-	static get () {
-		if (!Logger.instance) Logger.instance = new Logger()
-		return Logger.instance
-	}
-
-	wrap<T> (id: string, fn: () => Promise<T>) {
-		return this.#storage.run(id, fn)
-	}
-
+export const logger = {
 	debug (...args: any[]) {
-		const id = this.#storage.getStore()
+		const id = storage.getStore()
 		if (id) {
 			console.log(`${id}: `, ...args)
 		}
+	},
+
+	wrap<T> (id: string, fn: () => T) {
+		return storage.run(id, fn)
 	}
 }

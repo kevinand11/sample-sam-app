@@ -1,13 +1,13 @@
 import middy, { MiddlewareObj } from "@middy/core"
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
-import { Logger } from './logger'
+import { logger } from './logger'
 import { mockOrdersCreation } from './orders'
 
-type Event = APIGatewayProxyEvent & { logger: Logger }
+type Event = APIGatewayProxyEvent & { logger: typeof logger }
 
 const middleware: MiddlewareObj<Event, APIGatewayProxyResult> = {
   before: async (request) => {
-    if (!request.event.logger) request.event.logger = Logger.get()
+    if (!request.event.logger) request.event.logger = logger
   },
 }
 

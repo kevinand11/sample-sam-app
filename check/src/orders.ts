@@ -1,4 +1,4 @@
-import { Logger } from './logger'
+import { logger } from './logger'
 
 export const mockOrdersCreation = async () => {
 	const orderIds = new Array(20)
@@ -11,7 +11,7 @@ export const mockOrdersCreation = async () => {
 }
 
 async function createOrder (orderId: string) {
-	Logger.get().debug(`Creating order ${orderId}!`)
+	logger.debug(`Creating order ${orderId}!`)
 
 	await new Promise((resolve) => {
 		setTimeout(() => {
@@ -19,5 +19,5 @@ async function createOrder (orderId: string) {
 		}, 1000)
 	})
 
-	Logger.get().debug(`Order ${orderId} created successfully!`)
+	logger.debug(`Order ${orderId} created successfully!`)
 }
