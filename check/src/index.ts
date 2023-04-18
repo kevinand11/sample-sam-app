@@ -3,30 +3,25 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import { logger } from './logger'
 import { mockOrdersCreation } from './orders'
 
-type Event = APIGatewayProxyEvent & { logger: typeof logger }
-
-const middleware: MiddlewareObj<Event, APIGatewayProxyResult> = {
-  before: async (request) => {
-    if (!request.event.logger) request.event.logger = logger
-  },
+const middleware: MiddlewareObj<APIGatewayProxyEvent, APIGatewayProxyResult> = {
+	before: (request) => {
+		const requestId = request.event?.requestContext?.requestId ?? Math.random().toString()
+		logger.with({ requestId })
+	}
 }
 
-export const checkHeader = middy(async (event: Event) => {
-  const requestId = event?.requestContext?.requestId ?? Math.random().toString()
+export const checkHeader = middy(async (event: APIGatewayProxyEvent) => {
+	const header = event.headers['X-Client-Id']
+	const headerPresent = header !== undefined
 
-  return await event.logger.with({ requestId }, async () => {
-    const header = event.headers['X-Client-Id']
-    const headerPresent = header !== undefined
+	await mockOrdersCreation()
 
-    await mockOrdersCreation()
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        headerPresent,
-        ...event
-      }),
-    }
-  })
+	return {
+		statusCode: 200,
+		body: JSON.stringify({
+			headerPresent,
+			event
+		}),
+	}
 })
-  .use(middleware)
+	.use(middleware)

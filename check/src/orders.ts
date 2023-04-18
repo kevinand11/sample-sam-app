@@ -9,17 +9,17 @@ export const mockOrdersCreation = async () => {
 }
 
 async function createOrder (orderId: string) {
-	logger.with({ orderId }, async () => {
-		await new Promise((resolve) => {
-			setTimeout(() => {
-				resolve(null)
-			}, 1000)
-		})
+	logger.with({ orderId })
 
-		formatDate(new Date())
-
-		logger.debug(`Order created successfully!`)
+	await new Promise((resolve) => {
+		setTimeout(() => {
+			resolve(null)
+		}, 1000)
 	})
+
+	formatDate(new Date())
+
+	logger.debug(`Order created successfully!`)
 }
 
 function formatDate (date: Date) {

@@ -1,6 +1,6 @@
 import { AsyncLocalStorage } from 'async_hooks'
 
-const storage = new AsyncLocalStorage<Record<string, any>>()
+const storage = new AsyncLocalStorage<Record<string, unknown>>()
 
 export const logger = {
 	debug (...args: any[]) {
@@ -12,12 +12,12 @@ export const logger = {
 		}
 	},
 
-	with<Ctx extends Record<string, any>, T> (ctx: Ctx, fn: () => T) {
+	with<Ctx extends Record<string, unknown>> (ctx: Ctx) {
 		const exisitingCtx = storage.getStore() ?? {}
-		return storage.run({
+		return storage.enterWith({
 			...exisitingCtx,
 			...ctx
-		}, fn)
+		})
 	},
 
 	get () {
