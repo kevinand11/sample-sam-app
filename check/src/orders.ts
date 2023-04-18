@@ -1,9 +1,7 @@
 import { logger } from './logger'
 
 export const mockOrdersCreation = async () => {
-	const orderIds = new Array(20)
-		.fill(0)
-		.map(() => Math.random().toString().slice(2))
+	const orderIds = Array.from({ length: 20 }, () => Math.random().toString().slice(2))
 
 	await Promise.all(orderIds.map(createOrder))
 }
@@ -13,11 +11,11 @@ async function createOrder (orderId: string) {
 
 	await new Promise((resolve) => {
 		setTimeout(() => {
+			console.log(orderId)
+			formatDate(new Date())
 			resolve(null)
-		}, 1000)
+		}, Math.random() * 1000)
 	})
-
-	formatDate(new Date())
 
 	logger.debug(`Order created successfully!`)
 }
@@ -30,6 +28,7 @@ function formatDate (date: Date) {
 
 	// As long as an orderId was placed in a context before this fn call, it will be available here
 	const orderIdInContext = ctx?.orderId ?? ''
+	ctx?.requestId
 
 	return res
 }
